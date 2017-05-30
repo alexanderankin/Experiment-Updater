@@ -3,6 +3,27 @@ require('dotenv').config({
 });
 var fs = require('fs');
 
+var asciiA = 65;
+function getLetters(number) {
+  // number = number - 1;
+  var list = [];
+  do {
+    list.unshift(number % 26 - 1);  // minus one because columns are not 0 indexed
+    number = parseInt(number / 26, 10);
+  } while (number > 0);
+
+  console.log("list", list);
+  return list.map(function (digit) {
+    return String.fromCharCode(asciiA + digit)
+  }).join('');
+}
+var result = getLetters(26);
+console.log(result);
+function appendIndexes(fields, count) {
+  count = count || 100;
+  fields.length;
+}
+
 var dataLocation = '/resources/lomvardas/gspreadsheet/gss-getter/data_recv.json'
 function getGSSInput(callback) {
   fs.readFile(dataLocation, 'utf-8', function (e, d) {
