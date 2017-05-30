@@ -9,8 +9,13 @@ function getGSSInput(callback) {
     if (e) return callback(e);
 
     var data = JSON.parse(d);
-    // console.log(data[0]);
-    callback(null, data);
+    var fields = data.shift().map(function (field) {
+      field = field.split(' ').join('_');
+      field = field.replace(/[&\/\\#,+()$~%.'":*?<>\{\}]/g, '');
+      field = field.substring(0, 60);
+      return field;
+    });
+    callback(null, fields, data);
   });
 }
 
