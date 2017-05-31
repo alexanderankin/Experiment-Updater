@@ -1,3 +1,6 @@
+/**
+ * Pretty sure this module is not a part of this application.
+ */
 var fs = require('fs');
 
 var dataLocation = '/resources/lomvardas/gspreadsheet/gss-getter/data_recv.json'

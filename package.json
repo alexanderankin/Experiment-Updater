@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
@@ -12,6 +13,7 @@
     "async": "^2.4.1",
     "bookshelf": "^0.10.3",
     "dotenv": "^4.0.0",
+    "googleapis": "^19.0.0",
     "knex": "^0.13.0",
     "mysql": "^2.13.0"
   }

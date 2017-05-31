@@ -44,7 +44,7 @@ function loadTable(tableName, schema, done) {
     knex.schema.dropTableIfExists(tableName).asCallback(function (e, response) {
       if (e) return done(e);
 
-      console.log("dropped if exists");
+      //console.log("dropped if exists");
 
       // create
       knex.schema.createTable(tableName, function (tableObject) {
