@@ -1,6 +1,3 @@
-require('dotenv').config({
-  path: require('path').join(__dirname, '.env')
-});
 var fs = require('fs');
 
 var getGSSInput = require('./input').getGSSInput;
