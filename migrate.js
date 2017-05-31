@@ -5,25 +5,16 @@ var fs = require('fs');
 var async = require('async');
 
 var bookshelf = require('./bookshelf').getInstance();
-var getGSSInput = require('./functions').getGSSInput;
+var getGSSInput = require('./input').getGSSInput;
 var makeSchema  = require('./functions').makeSchema;
 
 var knex = require('./bookshelf').getKnexInstance();
 
 var loadTable = require('./schema').loadTable;
 
-getGSSInput(function (e, data) {
-  var fields = data.shift();
-  var schema = makeSchema(fields); console.log(schema);
+getGSSInput(function (e, fields, data) {
+  var schema = makeSchema(fields); // console.log(schema);
   var tableName = 'experiments';
-
-  // after makeSchema, before usage in saveRows call
-  var fields = fields.map(function (field) {
-    field = field.split(' ').join('_');
-    field = field.replace(/[&\/\\#,+()$~%.'":*?<>\{\}]/g, '');
-    field = field.substring(0, 60);
-    return field;
-  });
 
   loadTable(tableName, schema, function (error, response) {
     if (error) throw error; console.log("ok");
@@ -49,7 +40,7 @@ function saveRows(rows, fields, tableName, done) {
       .forge(forgeAttributes(row, fields))
       .save()
       .asCallback(function (error, response) {
-        console.log("the error is", error);
+        // console.log("the error is", error);
         if (error) {
           if (error.code == 'ER_BAD_FIELD_ERROR') {
             console.log(forgeAttributes(row, fields));
