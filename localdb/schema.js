@@ -1,6 +1,30 @@
 var knex = require('../bookshelf').getKnexInstance();
 
 /**
+ * Construct a schema object from a list of fields
+ * 
+ * Corresponds to the schema object expected by addTableColumn
+ * 
+ * @property type: const column types in link:
+ * https://github.com/tgriesser/knex/blob/master/src/schema/tablebuilder.js
+ */
+function makeSchema(fields) {
+  var base = {
+    _id: {type: 'increments', nullable: false, primary: true}
+  };
+
+  fields.map(function (field) {
+    base[field] = {
+      type: 'text',
+      maxlength: 300,
+      nullable: true
+    };
+  });
+
+  return base;
+}
+
+/**
  * Take a table name, schema, drop if exists and create new
  * 
  * @param tableName {string}, name of the table to create
@@ -14,7 +38,7 @@ var knex = require('../bookshelf').getKnexInstance();
  */
 function loadTable(tableName, schema, done) {
   knex.schema.hasTable(tableName).asCallback(function (e, exists) {
-    if (e) throw e;
+    if (e) return done(e);
 
     // create if not exists
     knex.schema.dropTableIfExists(tableName).asCallback(function (e, response) {
@@ -38,17 +62,22 @@ function loadTable(tableName, schema, done) {
   });
 }
 
-// tests
-// var schema = {
-//   id: { type: 'increments', nullable: false, primary: true },
-//   sequencing_date: { type: 'string', maxlength: 300, nullable: true }
-// };
+/**
+ * Tests for
+ * 
+ * > function loadTable(tableName, schema, done)
+ * 
+ * // var schema = {
+ * //   id: { type: 'increments', nullable: false, primary: true },
+ * //   sequencing_date: { type: 'string', maxlength: 300, nullable: true }
+ * // };
 
-// loadTable('experiments', schema, function (e, response) {
-//   if (e) throw e;
-//   console.log("done");
-//   console.log(response);
-// });
+ * // loadTable('experiments', schema, function (e, response) {
+ * //   if (e) throw e;
+ * //   console.log("done");
+ * //   console.log(response);
+ * // });
+*/
 
 /**
  * Runs the fluent interface calls from declarative schema object for column
@@ -99,6 +128,6 @@ function addTableColumn(tableName, table, columnName, tableSchema) {
 }
 
 module.exports = {
-  loadTable:      loadTable//,
-  // addTableColumn: addTableColumn
+  loadTable:  loadTable,
+  makeSchema: makeSchema
 };

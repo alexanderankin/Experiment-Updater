@@ -3,12 +3,20 @@ require('dotenv').config({
 });
 var fs = require('fs');
 
-var bookshelf = require('./bookshelf');
-var getGSSInput = require('./functions').getGSSInput;
-var makeSchema  = require('./functions').makeSchema;
+var getGSSInput = require('./input').getGSSInput;
+var db = require('./localdb');
 
-getGSSInput(function (error, data) {
-  if (error) throw error;
-  var schema = makeSchema(data[0]);
-  console.log(schema);
+getGSSInput(function (e, fields, data) {
+  var newSchema = db.schema.makeSchema(fields); // console.log(newSchema);
+  var tableName = 'experiments';
+
+  db.schema.loadTable(tableName, newSchema, function (error, response) {
+    if (error) throw error; console.log("ok");
+
+    db.saveRows(data, fields, tableName, function (error) {
+      if (error) throw error;
+
+      console.log("saved rows");
+    });
+  });
 });
