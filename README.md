@@ -4,6 +4,8 @@ This project borrows from [Knex](knexjs.org) for table definitions, [Bookshelf](
 
 This document describes steps to setup and use this updater CLI tool (2 minute read).
 
+TODO: add `CREATE DATABASE IF NOT EXISTS ?;` statement
+
 ## Setup
 
 This program requires a MySQL database and a set of OAuth client credentials for accessing Google Spreadsheets API. The instructions assume you are in the directory of the node package (in the directory containing `package.json`).
