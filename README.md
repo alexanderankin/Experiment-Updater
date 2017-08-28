@@ -23,10 +23,10 @@ Then edit the `.env` file w/ database name, username, password (you probably wan
 If necessary, setup a new database:
 
 ```bash
-$ dbname="justatest"
-$ read user
-$ read pass
-$ mysql -u$user -p$pass -e "create database if not exists $dbname;"
+dbname="justatest"
+read user
+read pass
+mysql -u$user -p$pass -e "create database if not exists $dbname;"
 mysql: [Warning] Using a password on the command line interface can be insecure.
 ```
 
@@ -39,5 +39,12 @@ Lastly, if you need to get new credentials:
 ## Usage
 
 ```bash
-$ npm run
+$ npm start
 ```
+
+# Long Term TODO
+
+rewrite this project without deps and make room for doc2db architecture with plugin system, with usage like:
+
+* doc2db csv --infile=thing.csv --outdb=mysql --dbusername...
+* doc2db gspreadsheet --url="$URL" --outdb=mysql --dbusername...
